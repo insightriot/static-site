@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started with Static Sites</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="/">My Website</a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog" class="active">Blog</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/faq.html">FAQ</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <article class="blog-post">
+        <header class="post-header">
+          <h1>Getting Started with Static Sites</h1>
+          <div class="post-meta">
+            <span class="date"></span>
+            {{ author ? `<span class="author">by ${author}</span>` : '' }}
+          </div>
+        </header>
+        
+        <div class="post-content">
+          <h1>Getting Started with Static Sites</h1>
+<p>Static websites are making a big comeback in the web development world, and for good reason. They&#39;re fast, secure, and simple to host. In this post, we&#39;ll explore why you might want to use a static site and how to get started building your own.</p>
+<h2>Why Static Sites?</h2>
+<p>Static sites have several advantages over dynamic, server-rendered websites:</p>
+<ol>
+<li><strong>Performance</strong>: Static sites are blazing fast because they&#39;re just HTML, CSS, and JavaScript files that can be served directly from a CDN.</li>
+<li><strong>Security</strong>: With no server-side code or database, there are fewer security vulnerabilities to worry about.</li>
+<li><strong>Reliability</strong>: Static sites have fewer points of failure and can handle traffic spikes more gracefully.</li>
+<li><strong>Cost</strong>: Hosting static sites is often cheaper (or even free) compared to dynamic sites that require servers.</li>
+</ol>
+<h2>The Modern Static Site</h2>
+<p>Today&#39;s static sites aren&#39;t the basic HTML pages of the 90s. Modern static site generators allow you to:</p>
+<ul>
+<li>Use templates and layouts to maintain consistent design</li>
+<li>Write content in Markdown for ease of use</li>
+<li>Include dynamic features through JavaScript and APIs</li>
+<li>Process and optimize assets during the build process</li>
+</ul>
+<h2>Getting Started</h2>
+<p>Creating a static site is easier than you might think. Here&#39;s a simple process to get started:</p>
+<pre><code class="language-bash"># Create your project structure
+mkdir my-static-site
+cd my-static-site
+
+# Create necessary directories
+mkdir -p src/{pages,layouts,posts,assets}
+
+# Initialize a package.json file
+npm init -y
+
+# Install dependencies
+npm install marked fs-extra
+</code></pre>
+<h2>Building the Site Generator</h2>
+<p>The heart of a static site is the build script that converts your content into HTML. Here&#39;s a simple example:</p>
+<pre><code class="language-javascript">const fs = require(&#39;fs-extra&#39;);
+const path = require(&#39;path&#39;);
+const marked = require(&#39;marked&#39;);
+
+// Read Markdown files
+const content = fs.readFileSync(&#39;src/pages/index.md&#39;, &#39;utf8&#39;);
+
+// Convert to HTML
+const html = marked.parse(content);
+
+// Apply template
+const template = fs.readFileSync(&#39;src/layouts/default.html&#39;, &#39;utf8&#39;);
+const page = template.replace(&#39;&#39;, html);
+
+// Write to output directory
+fs.ensureDirSync(&#39;public&#39;);
+fs.writeFileSync(&#39;public/index.html&#39;, page);
+</code></pre>
+<h2>Conclusion</h2>
+<p>Static sites offer a refreshing alternative to complex web applications when your content doesn&#39;t need to be dynamically generated on each request. By using modern tools and approaches, you can create fast, secure, and maintainable websites that are a joy to develop and use.</p>
+<p>In future posts, we&#39;ll dive deeper into advanced techniques for static sites, including:</p>
+<ul>
+<li>Adding search functionality</li>
+<li>Implementing comments</li>
+<li>Creating contact forms</li>
+<li>Optimizing for SEO</li>
+</ul>
+<p>Stay tuned!</p>
+
+        </div>
+        
+        <footer class="post-footer">
+          <div class="post-tags">
+            {{ tags ? tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '' }}
+          </div>
+          
+          <div class="post-share">
+            <span>Share:</span>
+            <a href="#" class="share-link">Twitter</a>
+            <a href="#" class="share-link">Facebook</a>
+            <a href="#" class="share-link">LinkedIn</a>
+          </div>
+        </footer>
+      </article>
+      
+      <div class="post-navigation">
+        <a href="/blog" class="back-to-blog">← Back to Blog</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About</h3>
+          <p>A simple static website with blog and information pages.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Subscribe</h3>
+          <div class="subscribe-form">
+            <form id="subscribe-form">
+              <input type="email" placeholder="Your email" required>
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 My Website. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Complete Guide to Markdown</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="/">My Website</a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog" class="active">Blog</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/faq.html">FAQ</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <article class="blog-post">
+        <header class="post-header">
+          <h1>A Complete Guide to Markdown</h1>
+          <div class="post-meta">
+            <span class="date"></span>
+            {{ author ? `<span class="author">by ${author}</span>` : '' }}
+          </div>
+        </header>
+        
+        <div class="post-content">
+          <h1>A Complete Guide to Markdown</h1>
+<p>Markdown is a lightweight markup language that you can use to add formatting elements to plaintext text documents. Created by John Gruber in 2004, Markdown is now one of the world&#39;s most popular markup languages.</p>
+<h2>Why Use Markdown?</h2>
+<p>Markdown is ideal for content creation because:</p>
+<ul>
+<li><strong>Simplicity</strong>: The syntax is simple and easy to learn</li>
+<li><strong>Portability</strong>: Markdown files can be opened in any text editor</li>
+<li><strong>Platform Independence</strong>: It works across operating systems</li>
+<li><strong>Future Proof</strong>: As a plain text format, it will always be readable</li>
+<li><strong>Versatility</strong>: It can be converted to HTML, PDF, and many other formats</li>
+</ul>
+<h2>Basic Markdown Syntax</h2>
+<h3>Headers</h3>
+<pre><code class="language-markdown"># H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+</code></pre>
+<h3>Emphasis</h3>
+<pre><code class="language-markdown">*This text will be italic*
+_This will also be italic_
+
+**This text will be bold**
+__This will also be bold__
+
+_You **can** combine them_
+</code></pre>
+<h3>Lists</h3>
+<h4>Unordered Lists</h4>
+<pre><code class="language-markdown">- Item 1
+- Item 2
+  - Item 2a
+  - Item 2b
+</code></pre>
+<h4>Ordered Lists</h4>
+<pre><code class="language-markdown">1. Item 1
+2. Item 2
+3. Item 3
+   1. Item 3a
+   2. Item 3b
+</code></pre>
+<h3>Links</h3>
+<pre><code class="language-markdown">[Link Text](https://www.example.com)
+</code></pre>
+<h3>Images</h3>
+<pre><code class="language-markdown">![Alt Text](image-url.jpg)
+</code></pre>
+<h3>Blockquotes</h3>
+<pre><code class="language-markdown">&gt; This is a blockquote.
+&gt; 
+&gt; This is the second paragraph in the blockquote.
+</code></pre>
+<h3>Code</h3>
+<p>Inline code uses single backticks:</p>
+<pre><code class="language-markdown">Use the `print()` function.
+</code></pre>
+<p>Code blocks use triple backticks:</p>
+<pre><code class="language-markdown">```javascript
+function hello() {
+  console.log(&quot;Hello, world!&quot;);
+}
+```
+</code></pre>
+<h2>Advanced Markdown</h2>
+<p>Many Markdown processors support extended syntax:</p>
+<h3>Tables</h3>
+<pre><code class="language-markdown">| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+</code></pre>
+<h3>Task Lists</h3>
+<pre><code class="language-markdown">- [x] Completed task
+- [ ] Incomplete task
+</code></pre>
+<h3>Footnotes</h3>
+<pre><code class="language-markdown">Here&#39;s a sentence with a footnote.[^1]
+
+[^1]: This is the footnote.
+</code></pre>
+<h2>Using Markdown in Your Static Site</h2>
+<p>When writing content for your static site, you can create Markdown files with front matter at the top:</p>
+<pre><code class="language-markdown">---
+layout: post
+title: My Blog Post
+date: 2025-03-17
+---
+
+# My Blog Post Content
+
+This is the content of my blog post.
+</code></pre>
+<p>The front matter (the YAML between the <code>---</code> lines) contains metadata about the page that can be used by your static site generator.</p>
+<h2>Conclusion</h2>
+<p>Markdown is an excellent choice for content creation in static websites. Its simplicity makes it easy to learn, while its flexibility makes it powerful enough for most content needs. By mastering Markdown, you&#39;ll be able to create well-formatted content quickly and efficiently.</p>
+<p>Happy writing!</p>
+
+        </div>
+        
+        <footer class="post-footer">
+          <div class="post-tags">
+            {{ tags ? tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '' }}
+          </div>
+          
+          <div class="post-share">
+            <span>Share:</span>
+            <a href="#" class="share-link">Twitter</a>
+            <a href="#" class="share-link">Facebook</a>
+            <a href="#" class="share-link">LinkedIn</a>
+          </div>
+        </footer>
+      </article>
+      
+      <div class="post-navigation">
+        <a href="/blog" class="back-to-blog">← Back to Blog</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About</h3>
+          <p>A simple static website with blog and information pages.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Subscribe</h3>
+          <div class="subscribe-form">
+            <form id="subscribe-form">
+              <input type="email" placeholder="Your email" required>
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 My Website. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

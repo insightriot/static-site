@@ -6,7 +6,7 @@ const path = require('path');
 // Configure live-server
 const serverParams = {
   port: 8080,
-  root: path.join(__dirname, 'public'),
+  root: path.join(__dirname, 'docs'),
   open: true,
   file: 'index.html',
   wait: 1000,

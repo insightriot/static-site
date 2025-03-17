@@ -16,13 +16,13 @@ marked.setOptions({
   breaks: true
 });
 
-// Ensure the public directory exists
-fs.ensureDirSync(path.join(__dirname, 'public'));
+// Ensure the docs directory exists
+fs.ensureDirSync(path.join(__dirname, 'docs'));
 
-// Copy assets to public folder
+// Copy assets to docs folder
 fs.copySync(
   path.join(__dirname, 'src', 'assets'),
-  path.join(__dirname, 'public', 'assets')
+  path.join(__dirname, 'docs', 'assets')
 );
 
 // Process layouts
@@ -38,7 +38,7 @@ fs.readdirSync(layoutsDir).forEach(file => {
 
 // Process pages
 const pagesDir = path.join(__dirname, 'src', 'pages');
-processDirectory(pagesDir, 'public');
+processDirectory(pagesDir, 'docs');
 
 // Process blog posts
 const postsDir = path.join(__dirname, 'src', 'posts');
@@ -66,9 +66,9 @@ if (fs.existsSync(postsDir)) {
         content: html
       });
       
-      fs.ensureDirSync(path.join(__dirname, 'public', 'blog'));
+      fs.ensureDirSync(path.join(__dirname, 'docs', 'blog'));
       fs.writeFileSync(
-        path.join(__dirname, 'public', 'blog', `${postData.slug}.html`),
+        path.join(__dirname, 'docs', 'blog', `${postData.slug}.html`),
         postHtml
       );
     }
@@ -83,9 +83,9 @@ if (fs.existsSync(postsDir)) {
     posts: posts
   });
   
-  fs.ensureDirSync(path.join(__dirname, 'public', 'blog'));
+  fs.ensureDirSync(path.join(__dirname, 'docs', 'blog'));
   fs.writeFileSync(
-    path.join(__dirname, 'public', 'blog', 'index.html'),
+    path.join(__dirname, 'docs', 'blog', 'index.html'),
     blogIndexHtml
   );
 }
