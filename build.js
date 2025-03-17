@@ -54,7 +54,7 @@ if (fs.existsSync(postsDir)) {
         ...parsed.attributes,
         content: html,
         slug: path.basename(file, '.md'),
-        url: `/blog/${path.basename(file, '.md')}.html`
+        url: `./blog/${path.basename(file, '.md')}.html`
       };
       
       posts.push(postData);
