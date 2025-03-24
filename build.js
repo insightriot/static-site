@@ -50,11 +50,33 @@ if (fs.existsSync(postsDir)) {
       const content = fs.readFileSync(path.join(postsDir, file), 'utf8');
       const parsed = frontMatter(content);
       const html = marked.parse(parsed.body);
+      
+      // Format the date if it exists
+      let formattedDate = '';
+      if (parsed.attributes.date) {
+        try {
+          const dateObj = new Date(parsed.attributes.date);
+          if (!isNaN(dateObj.getTime())) {
+            formattedDate = dateObj.toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            });
+          } else {
+            formattedDate = parsed.attributes.date;
+          }
+        } catch (e) {
+          formattedDate = parsed.attributes.date;
+          console.warn(`Could not format date for post: ${parsed.attributes.title}`);
+        }
+      }
+      
       const postData = {
         ...parsed.attributes,
         content: html,
         slug: path.basename(file, '.md'),
-        url: `./blog/${path.basename(file, '.md')}.html`
+        url: `./${path.basename(file, '.md')}.html`,
+        formattedDate: formattedDate
       };
       
       posts.push(postData);
@@ -75,7 +97,11 @@ if (fs.existsSync(postsDir)) {
   });
   
   // Sort posts by date (newest first)
-  posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+  posts.sort((a, b) => {
+    const dateA = a.date ? new Date(a.date) : new Date(0);
+    const dateB = b.date ? new Date(b.date) : new Date(0);
+    return dateB - dateA;
+  });
   
   // Create blog index page
   const blogIndexHtml = applyLayout('blog', {
@@ -159,11 +185,43 @@ function applyLayout(layoutName, data) {
   // Replace template variables
   Object.keys(data).forEach(key => {
     const value = data[key];
-    if (typeof value === 'string') {
+    if (typeof value === 'string' || typeof value === 'number' || value instanceof Date) {
+      let displayValue = value;
+      // Format date if it's a date string
+      if (key === 'date' && typeof value === 'string') {
+        try {
+          const dateObj = new Date(value);
+          if (!isNaN(dateObj.getTime())) {
+            displayValue = dateObj.toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            });
+          }
+        } catch (e) {
+          console.warn(`Could not format date: ${value}`);
+        }
+      }
       const regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, 'g');
-      html = html.replace(regex, value);
+      html = html.replace(regex, displayValue);
     }
   });
+  
+  // Process conditional expressions for author
+  if (data.author) {
+    html = html.replace(/\{\{\s*author\s*\?\s*`[^`]*`\s*:\s*''\s*\}\}/g, 
+      `<span class="author">by ${data.author}</span>`);
+  } else {
+    html = html.replace(/\{\{\s*author\s*\?\s*`[^`]*`\s*:\s*''\s*\}\}/g, '');
+  }
+  
+  // Process conditional expressions for tags
+  if (data.tags && Array.isArray(data.tags)) {
+    const tagsHtml = data.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+    html = html.replace(/\{\{\s*tags\s*\?\s*tags\.map\([^)]*\)\.join\([^)]*\)\s*:\s*''\s*\}\}/g, tagsHtml);
+  } else {
+    html = html.replace(/\{\{\s*tags\s*\?\s*tags\.map\([^)]*\)\.join\([^)]*\)\s*:\s*''\s*\}\}/g, '');
+  }
   
   // Handle special cases like blog posts list
   if (data.posts && Array.isArray(data.posts)) {
@@ -173,7 +231,7 @@ function applyLayout(layoutName, data) {
         <article class="post-preview">
           <h2><a href="${post.url}">${post.title}</a></h2>
           <div class="post-meta">
-            <span class="date">${post.date}</span>
+            <span class="date">${post.formattedDate || post.date || ''}</span>
             ${post.author ? `<span class="author">by ${post.author}</span>` : ''}
           </div>
           ${post.excerpt ? `<div class="excerpt">${post.excerpt}</div>` : ''}
